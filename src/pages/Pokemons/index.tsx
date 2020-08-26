@@ -8,41 +8,63 @@ import {
   Dimensions,
   SafeAreaView,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
-import axios from 'axios';
+import styled from 'styled-components/native';
 import api from '../../services/api';
+import { useNavigation } from '@react-navigation/native';
 
 const { height, width } = Dimensions.get('window');
 
-interface TypeOject {
-  name: string;
-  url: string;
-}
-
-interface Type {
-  slot: number;
-  type: TypeOject;
-}
 interface Data {
   name: string;
   url: string;
   color: string;
 }
 
+const Card = styled.TouchableOpacity`
+  background-color: white;
+  height: 115px;
+  width: 46.5%;
+  box-shadow: 0 5px 15px black;
+  margin-bottom: 35px;
+  margin-left: 10px;
+`;
+
+const Heading = styled.Text`
+  font-weight: 500;
+  font-size: 16px;
+  color: black;
+  margin-left: 5.5px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+`;
+
+const StyledImage = styled.Image`
+  position: absolute;
+  height: 75%;
+  bottom: 2.5%;
+  right: 5%;
+  width: 50%;
+`;
+
 const Pokemons: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(10);
+  const [page, setPage] = useState(35);
   const [offset, setOffset] = useState(0);
   const [data, setData] = useState<Data | any>([]);
+
+  const { navigate } = useNavigation();
 
   async function loadPokemons(limit = page) {
     setLoading(true);
     await api.get(`offset=${offset}&limit=${limit}`).then((response) => {
       const data = response.data;
+      const results = data.results;
 
-      setData(data.results);
-      setOffset(offset + 10);
-      setPage(page + 10);
+      setData(results);
+      setOffset(offset + 30);
+      setPage(page + 30);
       setLoading(false);
     });
   }
@@ -50,6 +72,10 @@ const Pokemons: React.FC = () => {
   useEffect(() => {
     loadPokemons();
   }, []);
+
+  function handleToPokemon(id: string) {
+    navigate('Pokemon', { id });
+  }
 
   const Item = (item: Data) => {
     const urls = item.url;
@@ -59,24 +85,35 @@ const Pokemons: React.FC = () => {
       .replace('/', '');
 
     return (
-      <View key={item.name} style={[styles.card]}>
-        <Image
+      <Card
+        style={{
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 12,
+          },
+          shadowOpacity: 0.58,
+          shadowRadius: 16.0,
+          elevation: 24,
+        }}
+        key={item.name}
+        activeOpacity={0.5}
+        onPress={() => handleToPokemon(pokeId)}
+      >
+        <Heading>{item.name}</Heading>
+        <StyledImage
           resizeMode="contain"
-          style={styles.image}
           source={{
             uri: `https://pokeres.bastionbot.org/images/pokemon/${pokeId}.png`,
           }}
         />
-        <View style={styles.bottomCard}>
-          <Text style={styles.pokemonName}>{item.name}</Text>
-        </View>
-      </View>
+      </Card>
     );
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.pokemons}>Pokemons</Text>
+      <Text style={styles.pokemons}>Pokédex</Text>
       <FlatList
         data={data}
         keyExtractor={(item: any) => item.name}
@@ -104,17 +141,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: height * 0.05,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
   },
   text: {
-    color: '#FFF',
+    color: '#000',
     fontSize: 20,
     letterSpacing: 2,
   },
   pokemons: {
     fontSize: 25,
-    color: '#FFF',
+    color: '#000',
+    marginLeft: 25,
+    marginBottom: 25,
   },
   loading: {
     fontSize: 24,
