@@ -13,6 +13,8 @@ import {
 import styled from 'styled-components/native';
 import api from '../../services/api';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { setStatusBarBackgroundColor } from 'expo-status-bar';
 
 const { height, width } = Dimensions.get('window');
 
@@ -23,12 +25,12 @@ interface Data {
 }
 
 const Card = styled.TouchableOpacity`
-  background-color: white;
   height: 115px;
   width: 46.5%;
   box-shadow: 0 5px 15px black;
   margin-bottom: 35px;
   margin-left: 10px;
+  background-color: white;
 `;
 
 const Heading = styled.Text`
@@ -54,7 +56,6 @@ const Pokemons: React.FC = () => {
   const [page, setPage] = useState(35);
   const [offset, setOffset] = useState(0);
   const [data, setData] = useState<Data | any>([]);
-
   const { navigate } = useNavigation();
 
   async function loadPokemons(limit = page) {
@@ -79,9 +80,9 @@ const Pokemons: React.FC = () => {
   }
 
   const Item = (item: Data) => {
-    const urls = item.url;
+    const url = item.url;
 
-    const pokeId = urls
+    const pokeId = url
       .replace('https://pokeapi.co/api/v2/pokemon/', '')
       .replace('/', '');
 
@@ -144,45 +145,10 @@ const styles = StyleSheet.create({
     paddingTop: height * 0.05,
     backgroundColor: '#f5f5f5',
   },
-  text: {
-    color: '#000',
-    fontSize: 20,
-    letterSpacing: 2,
-  },
   pokemons: {
     fontSize: 25,
     color: '#000',
     marginLeft: 25,
     marginBottom: 25,
-  },
-  loading: {
-    fontSize: 24,
-    letterSpacing: 1,
-  },
-  image: {
-    height: height / 3.4,
-    width: width / 2.8,
-    alignSelf: 'center',
-  },
-  card: {
-    height: height / 2.0,
-    width: '45%',
-    borderRadius: 8,
-    margin: 10,
-    flexGrow: 1,
-    flexShrink: 1,
-    borderColor: 'rgba(255, 255, 255, 0.8)',
-    borderWidth: 1,
-  },
-  bottomCard: {
-    backgroundColor: '#FFF',
-    justifyContent: 'center',
-    flex: 1,
-    padding: 20,
-  },
-  pokemonName: {
-    color: '#010101',
-    fontSize: 15,
-    letterSpacing: 1.5,
   },
 });

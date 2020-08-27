@@ -85,7 +85,7 @@ const AboutComponent: React.FC<Props> = ({
         <View>
           <View style={{ flexDirection: 'row' }}>
             {eggGroup.map((item: EggGroup) => {
-              return <RightText>{item.name}</RightText>;
+              return <RightText key={item.name}>{item.name}</RightText>;
             })}
           </View>
           <RightText>{type}</RightText>
