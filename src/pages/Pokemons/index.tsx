@@ -38,6 +38,7 @@ const Heading = styled.Text`
   margin-left: 5.5px;
   margin-top: 10px;
   margin-bottom: 15px;
+  text-transform: capitalize;
 `;
 
 const StyledImage = styled.Image`

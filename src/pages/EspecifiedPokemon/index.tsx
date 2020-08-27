@@ -17,12 +17,12 @@ import {
   PokemonName,
   BackgroundImage,
   BottomContainer,
-  TitleText,
   Line,
 } from './styles';
 import pokeball from '../../images/pokeball.png';
 import { getCategories } from '../../../categories';
 import Loading from '../../components/Loading';
+import AboutComponent from '../../components/AboutComponent';
 
 interface RouteProps {
   id: number;
@@ -38,16 +38,27 @@ interface Type {
   type: TypeOject;
 }
 
+interface EggGroup {
+  name: string;
+  url: string;
+}
+
+interface Egg {
+  egg_group: EggGroup;
+}
+
 const { height, width } = Dimensions.get('window');
 
 const EspecifiedPokemon: React.FC = () => {
   const [data, setData] = useState([]);
   const [name, setName] = useState('');
   const [types, setTypes] = useState([]);
-  const [slot, setSlot] = useState(0);
   const [typeColor, setTypeColor] = useState('');
   const [weight, setWeight] = useState(0);
   const [pokeHeight, setPokeHeight] = useState(0);
+  const [abilities, setAbilities] = useState([]);
+  const [eggGroup, setEggGroup] = useState<Egg | any>([]);
+  const [type, setType] = useState('');
 
   const [selectedCategory, setSelectedCategory] = useState('About');
 
@@ -71,6 +82,9 @@ const EspecifiedPokemon: React.FC = () => {
           const types = data.types;
           const weightPoke = data.weight;
           const heightPoke = data.height;
+          const ability = data.abilities;
+
+          setAbilities(ability);
 
           setWeight(weightPoke);
           setPokeHeight(heightPoke);
@@ -82,6 +96,20 @@ const EspecifiedPokemon: React.FC = () => {
     loadPokemon();
   }, []);
 
+  useEffect(() => {
+    async function loadColor() {
+      await axios
+        .get(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
+        .then((response) => {
+          const data = response.data;
+
+          setEggGroup(data.egg_groups);
+          setTypeColor(data.color.name);
+        });
+    }
+    loadColor();
+  }, []);
+
   if (data === null) {
     return <Loading />;
   }
@@ -91,21 +119,23 @@ const EspecifiedPokemon: React.FC = () => {
   };
 
   const color = (color: string) => {
-    if (color === 'grass') return GRASS_COLOR;
-    if (color === 'fire') return FIRE_COLOR;
-    if (color === 'water') return WATER_COLOR;
-    if (color === 'lightning') return LIGHTNING_COLOR;
-    if (color === 'eletric') return LIGHTNING_COLOR;
-    if (color === 'poison') return GRASS_COLOR;
+    if (color === 'green') return GRASS_COLOR;
+    if (color === 'red') return FIRE_COLOR;
+    if (color === 'blue') return WATER_COLOR;
+    if (color === 'black') return 'rgba(0, 0, 0, 0.6)';
+    if (color === 'brown') return '#8B4513';
+    if (color === 'gray') return '#d1d1e0';
+    if (color === 'pink') return '#f4bdc9';
+    if (color === 'yellow') return LIGHTNING_COLOR;
+    if (color === 'purple') return '#8257E5';
+    if (color === 'white') return '#FFF';
     return 'rgba(0, 0, 0, 0.7)';
   };
 
   const Item = (item: Type) => {
     const type = item.type.name;
 
-    setTypeColor(type);
-    setSlot(item.slot);
-
+    setType(type);
     return (
       <View style={styles.types}>
         <Text style={styles.typesText}>{type}</Text>
@@ -136,7 +166,7 @@ const EspecifiedPokemon: React.FC = () => {
         renderItem={({ item }: any) => <Item {...item} />}
       />
       <StyledImage
-        style={{ marginTop: height * 0.25 }}
+        style={{ marginTop: height * 0.21 }}
         resizeMode="contain"
         source={{
           uri: `https://pokeres.bastionbot.org/images/pokemon/${id}.png`,
@@ -145,7 +175,7 @@ const EspecifiedPokemon: React.FC = () => {
       <BottomContainer style={{ marginTop: height * 0.34 }}>
         <View
           style={{
-            marginTop: height * 0.09,
+            marginTop: 45,
             flexDirection: 'row',
             justifyContent: 'space-around',
           }}
@@ -176,7 +206,7 @@ const EspecifiedPokemon: React.FC = () => {
                   <View
                     style={{
                       backgroundColor: '#0000ff',
-                      width: 100,
+                      width: 50,
                       height: 2,
                       marginTop: 35,
                     }}
@@ -187,17 +217,16 @@ const EspecifiedPokemon: React.FC = () => {
           })}
         </View>
         <Line></Line>
-
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-          <View>
-            <Text>Height: </Text>
-            <Text>Weight: </Text>
-          </View>
-          <View>
-            <Text>{pokeHeight}</Text>
-            <Text>{weight}</Text>
-          </View>
-        </View>
+        {selectedCategory === 'About' && (
+          <AboutComponent
+            type={type}
+            eggGroup={eggGroup}
+            abilities={abilities}
+            name={name}
+            pokeHeight={pokeHeight}
+            weight={weight}
+          />
+        )}
       </BottomContainer>
     </Container>
   );
@@ -226,10 +255,12 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginTop: 10,
     alignSelf: 'center',
+    textTransform: 'capitalize',
   },
   typesText: {
     fontSize: 17,
     color: '#FFF',
     marginLeft: 25,
+    textTransform: 'capitalize',
   },
 });

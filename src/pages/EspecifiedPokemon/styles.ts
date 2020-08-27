@@ -30,7 +30,7 @@ export const PokemonName = styled.Text`
   color: #fff;
   font-size: 20px;
   font-weight: bold;
-  text-transform: uppercase;
+  text-transform: capitalize;
   margin-left: 25px;
   margin-top: 15px;
 `;
@@ -48,11 +48,6 @@ export const BottomContainer = styled.View`
   background-color: #fff;
   border-top-right-radius: 24px;
   border-top-left-radius: 24px;
-`;
-
-export const TitleText = styled.Text`
-  font-weight: 600;
-  font-size: 18px;
 `;
 
 export const Line = styled.View`
