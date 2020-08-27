@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import Header from '../../components/Header';
@@ -12,8 +18,11 @@ import {
   BackgroundImage,
   BottomContainer,
   TitleText,
+  Line,
 } from './styles';
 import pokeball from '../../images/pokeball.png';
+import { getCategories } from '../../../categories';
+import Loading from '../../components/Loading';
 
 interface RouteProps {
   id: number;
@@ -40,11 +49,14 @@ const EspecifiedPokemon: React.FC = () => {
   const [weight, setWeight] = useState(0);
   const [pokeHeight, setPokeHeight] = useState(0);
 
+  const [selectedCategory, setSelectedCategory] = useState('About');
+
   const GRASS_COLOR = '#48d1ae';
   const FIRE_COLOR = '#fc6c6d';
   const WATER_COLOR = '#75bdfd';
   const LIGHTNING_COLOR = '#ffd66f';
 
+  const categories = getCategories();
   const route = useRoute();
 
   const { id } = route.params as RouteProps;
@@ -71,27 +83,19 @@ const EspecifiedPokemon: React.FC = () => {
   }, []);
 
   if (data === null) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#010101',
-        }}
-      >
-        <Text style={{ color: '#FFF', fontSize: 24, fontFamily: '700' }}>
-          Loading ...
-        </Text>
-      </View>
-    );
+    return <Loading />;
   }
+
+  const changeCategory = (category: string) => {
+    setSelectedCategory(category);
+  };
 
   const color = (color: string) => {
     if (color === 'grass') return GRASS_COLOR;
     if (color === 'fire') return FIRE_COLOR;
     if (color === 'water') return WATER_COLOR;
     if (color === 'lightning') return LIGHTNING_COLOR;
+    if (color === 'eletric') return LIGHTNING_COLOR;
     if (color === 'poison') return GRASS_COLOR;
     return 'rgba(0, 0, 0, 0.7)';
   };
@@ -103,26 +107,8 @@ const EspecifiedPokemon: React.FC = () => {
     setSlot(item.slot);
 
     return (
-      <View
-        style={{
-          borderRadius: 10,
-          width: 100,
-          height: 28,
-          backgroundColor: 'rgba(255, 255, 255, 0.25)',
-          marginLeft: 20,
-          marginTop: 10,
-          alignSelf: 'center',
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 17,
-            color: '#FFF',
-            marginLeft: 25,
-          }}
-        >
-          {type}
-        </Text>
+      <View style={styles.types}>
+        <Text style={styles.typesText}>{type}</Text>
       </View>
     );
   };
@@ -150,15 +136,68 @@ const EspecifiedPokemon: React.FC = () => {
         renderItem={({ item }: any) => <Item {...item} />}
       />
       <StyledImage
-        style={{ marginTop: height * 0.3 }}
+        style={{ marginTop: height * 0.25 }}
         resizeMode="contain"
         source={{
           uri: `https://pokeres.bastionbot.org/images/pokemon/${id}.png`,
         }}
       />
       <BottomContainer style={{ marginTop: height * 0.34 }}>
-        <TitleText>About</TitleText>
-        <Text>{weight}</Text>
+        <View
+          style={{
+            marginTop: height * 0.09,
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+          }}
+        >
+          {categories.map((category, index) => {
+            return (
+              <TouchableOpacity
+                onPress={() => changeCategory(category)}
+                key={index}
+                style={[styles.button]}
+              >
+                <Text
+                  style={[
+                    styles.textButton,
+                    {
+                      fontWeight:
+                        selectedCategory === category ? 'bold' : '500',
+                      color:
+                        selectedCategory === category
+                          ? '#000'
+                          : 'rgba(0, 0, 0, 0.4)',
+                    },
+                  ]}
+                >
+                  {category}
+                </Text>
+                {selectedCategory === category && (
+                  <View
+                    style={{
+                      backgroundColor: '#0000ff',
+                      width: 100,
+                      height: 2,
+                      marginTop: 35,
+                    }}
+                  ></View>
+                )}
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+        <Line></Line>
+
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+          <View>
+            <Text>Height: </Text>
+            <Text>Weight: </Text>
+          </View>
+          <View>
+            <Text>{pokeHeight}</Text>
+            <Text>{weight}</Text>
+          </View>
+        </View>
       </BottomContainer>
     </Container>
   );
@@ -166,4 +205,31 @@ const EspecifiedPokemon: React.FC = () => {
 
 export default EspecifiedPokemon;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  button: {
+    height: 20,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    letterSpacing: 2,
+  },
+  textButton: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    lineHeight: 16,
+  },
+  types: {
+    borderRadius: 10,
+    width: 100,
+    height: 28,
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    marginLeft: 20,
+    marginTop: 10,
+    alignSelf: 'center',
+  },
+  typesText: {
+    fontSize: 17,
+    color: '#FFF',
+    marginLeft: 25,
+  },
+});

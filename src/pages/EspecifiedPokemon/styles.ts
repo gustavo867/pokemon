@@ -8,6 +8,8 @@ interface Props {
 
 const { height, width } = Dimensions.get('window');
 
+const lineWidth = width / 1.1;
+
 const statusBarHeight =
   Platform.OS === 'android' ? Constants.statusBarHeight : 0;
 
@@ -46,11 +48,18 @@ export const BottomContainer = styled.View`
   background-color: #fff;
   border-top-right-radius: 24px;
   border-top-left-radius: 24px;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const TitleText = styled.Text`
   font-weight: 600;
   font-size: 18px;
+`;
+
+export const Line = styled.View`
+  border-color: rgba(0, 0, 0, 0.3);
+  border-width: 1px;
+  width: ${lineWidth}px;
+  height: 1px;
+  margin-top: 15px;
+  align-self: center;
 `;
