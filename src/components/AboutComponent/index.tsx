@@ -81,7 +81,7 @@ const AboutComponent: React.FC<Props> = ({
             {convertHectogramsToKgs(weight)} Kgs
           </RightText>
         </View>
-        <AbilityContainer style={{ marginLeft: 0 }}>
+        <AbilityContainer style={{ marginLeft: 180, position: 'absolute' }}>
           <AboutText>Abilities</AboutText>
           <View
             style={{

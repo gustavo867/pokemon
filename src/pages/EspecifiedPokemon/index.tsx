@@ -85,7 +85,7 @@ const EspecifiedPokemon: React.FC = () => {
           const weightPoke = data.weight;
           const heightPoke = data.height;
           const ability = data.abilities;
-          const stats = data.stats.base_stat;
+          const stats = data.stats;
 
           setStat(stats);
           setAbilities(ability);
@@ -231,14 +231,7 @@ const EspecifiedPokemon: React.FC = () => {
           />
         )}
         {selectedCategory === 'Base Stats' && (
-          <BaseStats
-            hp={45}
-            attack={60}
-            spAttack={50}
-            spDefense={30}
-            defense={40}
-            speed={45}
-          />
+          <BaseStats stats={stat} name={name} />
         )}
       </BottomContainer>
     </Container>

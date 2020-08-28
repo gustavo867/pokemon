@@ -41,6 +41,7 @@ export const StatsText = styled.Text`
   color: rgba(0, 0, 0, 0.5);
   margin-top: 10px;
   line-height: 25px;
+  width: 90px;
 `;
 
 export const RightText = styled.Text`
@@ -51,4 +52,19 @@ export const RightText = styled.Text`
   margin-top: 10px;
   margin-right: 10px;
   width: 30px;
+  margin-left: 25px;
+`;
+
+export const Title = styled.Text`
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: 700;
+`;
+
+export const SmallText = styled.Text`
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-top: 8px;
+  line-height: 15px;
 `;
