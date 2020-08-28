@@ -46,6 +46,22 @@ const AboutComponent: React.FC<Props> = ({
   eggGroup,
   type,
 }: Props) => {
+  function convertDecimetersToMetre(decimeter: number) {
+    return decimeter / 10;
+  }
+
+  function convertDecimetersToFoot(decimeter: number) {
+    return (decimeter / 3).toFixed(2);
+  }
+
+  function convertHectogramsToLbs(hectogram: number) {
+    return (hectogram / 4.535).toFixed(2);
+  }
+
+  function convertHectogramsToKgs(hectogram: number) {
+    return (hectogram / 10).toFixed(2);
+  }
+
   return (
     <Container>
       <AboutContainer>
@@ -56,10 +72,16 @@ const AboutComponent: React.FC<Props> = ({
         </View>
         <View>
           <RightText>{name}</RightText>
-          <RightText>{pokeHeight}</RightText>
-          <RightText>{weight}</RightText>
+          <RightText>
+            {convertDecimetersToFoot(pokeHeight)} ft (
+            {convertDecimetersToMetre(pokeHeight)}) m
+          </RightText>
+          <RightText>
+            {convertHectogramsToLbs(weight)} Lbs{' '}
+            {convertHectogramsToKgs(weight)} Kgs
+          </RightText>
         </View>
-        <AbilityContainer>
+        <AbilityContainer style={{ marginLeft: 0 }}>
           <AboutText>Abilities</AboutText>
           <View
             style={{

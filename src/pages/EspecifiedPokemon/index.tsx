@@ -23,6 +23,7 @@ import pokeball from '../../images/pokeball.png';
 import { getCategories } from '../../../categories';
 import Loading from '../../components/Loading';
 import AboutComponent from '../../components/AboutComponent';
+import BaseStats from '../../components/BaseStats';
 
 interface RouteProps {
   id: number;
@@ -59,6 +60,7 @@ const EspecifiedPokemon: React.FC = () => {
   const [abilities, setAbilities] = useState([]);
   const [eggGroup, setEggGroup] = useState<Egg | any>([]);
   const [type, setType] = useState('');
+  const [stat, setStat] = useState([]);
 
   const [selectedCategory, setSelectedCategory] = useState('About');
 
@@ -83,9 +85,10 @@ const EspecifiedPokemon: React.FC = () => {
           const weightPoke = data.weight;
           const heightPoke = data.height;
           const ability = data.abilities;
+          const stats = data.stats.base_stat;
 
+          setStat(stats);
           setAbilities(ability);
-
           setWeight(weightPoke);
           setPokeHeight(heightPoke);
           setData(data);
@@ -227,6 +230,16 @@ const EspecifiedPokemon: React.FC = () => {
             weight={weight}
           />
         )}
+        {selectedCategory === 'Base Stats' && (
+          <BaseStats
+            hp={45}
+            attack={60}
+            spAttack={50}
+            spDefense={30}
+            defense={40}
+            speed={45}
+          />
+        )}
       </BottomContainer>
     </Container>
   );
@@ -256,6 +269,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: 'center',
     textTransform: 'capitalize',
+    justifyContent: 'center',
   },
   typesText: {
     fontSize: 17,
