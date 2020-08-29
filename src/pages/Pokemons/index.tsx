@@ -41,7 +41,7 @@ const Pokemons: React.FC = () => {
   }
 
   useEffect(() => {
-    // loadPokemons();
+    loadPokemons();
   }, []);
 
   function handleToFilter() {
@@ -86,8 +86,8 @@ const Pokemons: React.FC = () => {
     );
   };
 
-  {
-    data.length >= 1 && <Loading />;
+  if (data.map === undefined) {
+    return <Loading />;
   }
 
   return (

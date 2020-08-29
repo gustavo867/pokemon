@@ -10,6 +10,7 @@ import {
   Title,
   SmallText,
 } from './styles';
+import Loading from '../Loading';
 
 interface StatProps {
   name: string;
@@ -56,6 +57,10 @@ const BaseStats: React.FC<Stat> = ({ stats, name }: Stat) => {
       </StatsContainer>
     );
   };
+
+  if (stats.map === undefined) {
+    return <Loading />;
+  }
 
   return (
     <Container>

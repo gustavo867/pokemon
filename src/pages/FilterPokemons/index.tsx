@@ -12,18 +12,19 @@ import {
 import axios from 'axios';
 import pokemonApi from '../../services/pokemon';
 import Card from '../../components/Card';
+import Loading from '../../components/Loading';
 
 interface TypeOject {
   name: string;
   url: string;
 }
-
 interface Type {
   slot: number;
   type: TypeOject;
 }
 
 const FilterPokemons: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
   const [name, setName] = useState('');
   const [id, setId] = useState(0);
   const [types, setTypes] = useState<Type>();
@@ -56,6 +57,7 @@ const FilterPokemons: React.FC = () => {
   function handleSubmit() {
     loadPokemon();
     loadColor();
+    setIsVisible(true);
   }
 
   const GRASS_COLOR = '#48d1ae';
@@ -121,7 +123,9 @@ const FilterPokemons: React.FC = () => {
         </SubmitButton>
       </Row>
       <CenterContainer>
-        <Card name={name} id={id} type={types} color={color(colorName)} />
+        {isVisible && (
+          <Card name={name} id={id} type={types} color={color(colorName)} />
+        )}
       </CenterContainer>
       <BottomText>
         If color doesn't appear click twice on search button

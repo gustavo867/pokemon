@@ -9,6 +9,7 @@ import {
   Container,
   AbilityContainer,
 } from './styles';
+import Loading from '../Loading';
 
 interface Ability {
   name: string;
@@ -57,6 +58,14 @@ const AboutComponent: React.FC<Props> = ({
 
   function convertHectogramsToKgs(hectogram: number) {
     return (hectogram / 10).toFixed(2);
+  }
+
+  if (abilities.map === undefined) {
+    return <Loading />;
+  }
+
+  if (eggGroup.map === undefined) {
+    return <Loading />;
   }
 
   return (

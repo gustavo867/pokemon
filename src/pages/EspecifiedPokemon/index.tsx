@@ -123,10 +123,6 @@ const EspecifiedPokemon: React.FC = () => {
     loadColor();
   }, []);
 
-  {
-    data.map === undefined && <Loading />;
-  }
-
   const changeCategory = (category: string) => {
     setSelectedCategory(category);
   };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, Text } from 'react-native';
 import {
   CardContainer,
   Heading,

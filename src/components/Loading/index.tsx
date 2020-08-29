@@ -11,7 +11,7 @@ const Loading: React.FC = () => {
         backgroundColor: '#010101',
       }}
     >
-      <Text style={{ color: '#FFF', fontSize: 24, fontFamily: '700' }}>
+      <Text style={{ color: '#FFF', fontSize: 24, fontWeight: '700' }}>
         Loading ...
       </Text>
     </View>

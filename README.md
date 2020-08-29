@@ -1,6 +1,6 @@
 <div align="center">
-<h1>Champions League of Legends </h1>
-<img height="800" src="./.github/Screenshot_36.png"></img>
+<h1>Pokedex </h1>
+<img height="800" src="./.github/Screenshot_42.png"></img>
 </div>
 
 ## 🚀 Technologies
@@ -15,7 +15,7 @@
 **Clone the project and access the folder**
 
 ```bash
-$ git clone https://github.com/gustavo867/search-champions.git && cd search-champions
+$ git clone https://github.com/gustavo867/pokemon.git && cd pokemon
 ```
 
 **Follow the steps below**
@@ -35,6 +35,12 @@ $ yarn ios
 $ yarn start or expo start
 ```
 
+## Images
+
+<img height="800" src="./.github/Screenshot_41.png"></img>
+<img height="800" src="./.github/Screenshot_43.png"></img>
+<img height="800" src="./.github/Screenshot_44.png"></img>
+
 ## 🤔 How to contribute
 
 **Make a fork of this repository**
@@ -43,14 +49,14 @@ $ yarn start or expo start
 # Fork using GitHub official command line
 # If you don't have the GitHub CLI, use the web site to do that.
 
-$ gh repo fork gustavo867/search-champions
+$ gh repo fork gustavo867/pokemon
 ```
 
 **Follow the steps below**
 
 ```bash
 # Clone your fork
-$ git clone https://github.com/gustavo867/search-champions.git && cd search-champions
+$ git clone https://github.com/gustavo867/pokemon.git && cd pokemon
 
 # Create a branch with your feature
 $ git checkout -b my-feature
