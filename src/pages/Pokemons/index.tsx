@@ -9,7 +9,9 @@ import {
 } from 'react-native';
 import api from '../../services/api';
 import { useNavigation } from '@react-navigation/native';
-import { Card, Heading, StyledImage } from './styles';
+import { Card, Heading, StyledImage, Row } from './styles';
+import { RectButton } from 'react-native-gesture-handler';
+import Loading from '../../components/Loading';
 
 const { height } = Dimensions.get('window');
 
@@ -42,6 +44,10 @@ const Pokemons: React.FC = () => {
   useEffect(() => {
     loadPokemons();
   }, []);
+
+  function handleToFilter() {
+    navigate('Filter');
+  }
 
   function handleToPokemon(id: string) {
     navigate('Pokemon', { id });
@@ -81,9 +87,18 @@ const Pokemons: React.FC = () => {
     );
   };
 
+  {
+    data.map === undefined && <Loading />;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.pokemons}>Pokédex</Text>
+      <Row>
+        <Text style={styles.pokemons}>Pokédex</Text>
+        <RectButton onPress={() => handleToFilter()}>
+          <Text style={[styles.pokemons, { marginRight: 20 }]}>Filter</Text>
+        </RectButton>
+      </Row>
       <FlatList
         data={data}
         keyExtractor={(item: any) => item.name}

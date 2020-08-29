@@ -26,3 +26,8 @@ export const StyledImage = styled.Image`
   right: 5%;
   width: 50%;
 `;
+
+export const Row = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
