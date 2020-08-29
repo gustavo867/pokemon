@@ -14,7 +14,6 @@ import { RectButton } from 'react-native-gesture-handler';
 import Loading from '../../components/Loading';
 
 const { height } = Dimensions.get('window');
-
 interface Data {
   name: string;
   url: string;
@@ -42,7 +41,7 @@ const Pokemons: React.FC = () => {
   }
 
   useEffect(() => {
-    loadPokemons();
+    // loadPokemons();
   }, []);
 
   function handleToFilter() {
@@ -88,7 +87,7 @@ const Pokemons: React.FC = () => {
   };
 
   {
-    data.map === undefined && <Loading />;
+    data.length >= 1 && <Loading />;
   }
 
   return (
