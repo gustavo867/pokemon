@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { View, Dimensions } from 'react-native';
-
+import React from 'react';
+import { View } from 'react-native';
 import {
   AboutContainer,
   AboutText,
@@ -35,8 +34,6 @@ interface Props {
   eggGroup: EggGroup[];
   type: string;
 }
-
-const { width } = Dimensions.get('window');
 
 const AboutComponent: React.FC<Props> = ({
   name,
@@ -81,7 +78,7 @@ const AboutComponent: React.FC<Props> = ({
             {convertHectogramsToKgs(weight)} Kgs
           </RightText>
         </View>
-        <AbilityContainer style={{ marginLeft: 180, position: 'absolute' }}>
+        <AbilityContainer style={{ marginLeft: 160, position: 'absolute' }}>
           <AboutText>Abilities</AboutText>
           <View
             style={{

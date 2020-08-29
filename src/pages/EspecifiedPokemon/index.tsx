@@ -6,11 +6,6 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import axios from 'axios';
-import Header from '../../components/Header';
-import { FlatList } from 'react-native-gesture-handler';
-
 import {
   Container,
   StyledImage,
@@ -19,8 +14,13 @@ import {
   BottomContainer,
   Line,
 } from './styles';
-import pokeball from '../../images/pokeball.png';
+import { useRoute } from '@react-navigation/native';
+import { FlatList } from 'react-native-gesture-handler';
 import { getCategories } from '../../../categories';
+import axios from 'axios';
+import pokeball from '../../images/pokeball.png';
+
+import Header from '../../components/Header';
 import Loading from '../../components/Loading';
 import AboutComponent from '../../components/AboutComponent';
 import BaseStats from '../../components/BaseStats';
@@ -37,6 +37,10 @@ interface TypeOject {
 interface Type {
   slot: number;
   type: TypeOject;
+}
+
+interface Item {
+  item: Type;
 }
 
 interface EggGroup {
@@ -64,15 +68,21 @@ const EspecifiedPokemon: React.FC = () => {
 
   const [selectedCategory, setSelectedCategory] = useState('About');
 
+  const categories = getCategories();
+
+  const route = useRoute();
+  const { id } = route.params as RouteProps;
+
   const GRASS_COLOR = '#48d1ae';
   const FIRE_COLOR = '#fc6c6d';
   const WATER_COLOR = '#75bdfd';
   const LIGHTNING_COLOR = '#ffd66f';
-
-  const categories = getCategories();
-  const route = useRoute();
-
-  const { id } = route.params as RouteProps;
+  const BROWN_COLOR = '#8B4513';
+  const GRAY_COLOR = '#d1d1e0';
+  const PIKN_COLOR = '#f4bdc9';
+  const PURPLE_COLOR = '#8257E5';
+  const WHITE_COLOR = '#FFFFFF';
+  const BLACK_COLOR = 'rgba(0, 0, 0, 0.7)';
 
   useEffect(() => {
     async function loadPokemon() {
@@ -125,14 +135,14 @@ const EspecifiedPokemon: React.FC = () => {
     if (color === 'green') return GRASS_COLOR;
     if (color === 'red') return FIRE_COLOR;
     if (color === 'blue') return WATER_COLOR;
-    if (color === 'black') return 'rgba(0, 0, 0, 0.6)';
-    if (color === 'brown') return '#8B4513';
-    if (color === 'gray') return '#d1d1e0';
-    if (color === 'pink') return '#f4bdc9';
+    if (color === 'black') return BLACK_COLOR;
+    if (color === 'brown') return BROWN_COLOR;
+    if (color === 'gray') return GRAY_COLOR;
+    if (color === 'pink') return PIKN_COLOR;
     if (color === 'yellow') return LIGHTNING_COLOR;
-    if (color === 'purple') return '#8257E5';
-    if (color === 'white') return '#FFF';
-    return 'rgba(0, 0, 0, 0.7)';
+    if (color === 'purple') return PURPLE_COLOR;
+    if (color === 'white') return WHITE_COLOR;
+    return BLACK_COLOR;
   };
 
   const Item = (item: Type) => {
@@ -164,9 +174,9 @@ const EspecifiedPokemon: React.FC = () => {
           zIndex: 2,
           marginTop: height * 0.15,
         }}
-        keyExtractor={(item: any) => item.type.name}
+        keyExtractor={(item: Type) => item.type.name}
         data={types}
-        renderItem={({ item }: any) => <Item {...item} />}
+        renderItem={({ item }: Item) => <Item {...item} />}
       />
       <StyledImage
         style={{ marginTop: height * 0.21 }}
@@ -175,6 +185,7 @@ const EspecifiedPokemon: React.FC = () => {
           uri: `https://pokeres.bastionbot.org/images/pokemon/${id}.png`,
         }}
       />
+
       <BottomContainer style={{ marginTop: height * 0.34 }}>
         <View
           style={{

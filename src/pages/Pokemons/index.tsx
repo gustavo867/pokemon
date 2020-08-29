@@ -1,55 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View,
   Text,
   StyleSheet,
   FlatList,
-  Image,
   Dimensions,
   SafeAreaView,
   ActivityIndicator,
-  TouchableOpacity,
 } from 'react-native';
-import styled from 'styled-components/native';
 import api from '../../services/api';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
-import { setStatusBarBackgroundColor } from 'expo-status-bar';
+import { Card, Heading, StyledImage } from './styles';
 
-const { height, width } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 interface Data {
   name: string;
   url: string;
   color: string;
 }
-
-const Card = styled.TouchableOpacity`
-  height: 115px;
-  width: 46.5%;
-  box-shadow: 0 5px 15px black;
-  margin-bottom: 35px;
-  margin-left: 10px;
-  background-color: white;
-`;
-
-const Heading = styled.Text`
-  font-weight: 500;
-  font-size: 16px;
-  color: black;
-  margin-left: 5.5px;
-  margin-top: 10px;
-  margin-bottom: 15px;
-  text-transform: capitalize;
-`;
-
-const StyledImage = styled.Image`
-  position: absolute;
-  height: 75%;
-  bottom: 2.5%;
-  right: 5%;
-  width: 50%;
-`;
 
 const Pokemons: React.FC = () => {
   const [loading, setLoading] = useState(false);

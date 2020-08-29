@@ -1,8 +1,4 @@
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
-const { width } = Dimensions.get('window');
-
-const textMarginWidth = width / 5;
 
 export const Container = styled.View``;
 
