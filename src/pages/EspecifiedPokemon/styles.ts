@@ -55,6 +55,6 @@ export const Line = styled.View`
   border-width: 1px;
   width: ${lineWidth}px;
   height: 1px;
-  margin-top: 15px;
+  margin-top: 5px;
   align-self: center;
 `;

@@ -8,6 +8,7 @@ import {
   TypesText,
   Row,
 } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 interface TypeOject {
   name: string;
@@ -29,6 +30,12 @@ interface Props {
 const { width, height } = Dimensions.get('window');
 
 const Card: React.FC<Props> = ({ id, name, type, color }: Props) => {
+  const { navigate } = useNavigation();
+
+  function handleNavigateToPokemon(id: number | string) {
+    navigate('Pokemon', { id });
+  }
+
   return (
     <CardContainer
       style={{
@@ -43,6 +50,7 @@ const Card: React.FC<Props> = ({ id, name, type, color }: Props) => {
         backgroundColor: color === 'rgba(0, 0, 0, 0.7)' ? '#FFFFFF' : color,
       }}
       activeOpacity={0.9}
+      onPress={() => handleNavigateToPokemon(id)}
     >
       <Heading>{name}</Heading>
       <StyledImage

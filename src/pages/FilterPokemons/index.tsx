@@ -12,7 +12,7 @@ import {
 import axios from 'axios';
 import pokemonApi from '../../services/pokemon';
 import Card from '../../components/Card';
-import Loading from '../../components/Loading';
+import { useNavigation } from '@react-navigation/native';
 
 interface TypeOject {
   name: string;

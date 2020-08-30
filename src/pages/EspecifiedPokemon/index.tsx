@@ -16,14 +16,15 @@ import {
 } from './styles';
 import { useRoute } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
-import { getCategories } from '../../../categories';
+import { getCategories } from '../../utils/categories';
 import axios from 'axios';
 import pokeball from '../../images/pokeball.png';
 
 import Header from '../../components/Header';
-import Loading from '../../components/Loading';
 import AboutComponent from '../../components/AboutComponent';
 import BaseStats from '../../components/BaseStats';
+import Evolution from '../../components/Evolution';
+import Moves from '../../components/Moves';
 
 interface RouteProps {
   id: number;
@@ -218,7 +219,7 @@ const EspecifiedPokemon: React.FC = () => {
                       backgroundColor: '#0000ff',
                       width: 50,
                       height: 2,
-                      marginTop: 35,
+                      marginTop: 15,
                     }}
                   ></View>
                 )}
@@ -240,6 +241,7 @@ const EspecifiedPokemon: React.FC = () => {
         {selectedCategory === 'Base Stats' && (
           <BaseStats stats={stat} name={name} />
         )}
+        {selectedCategory === 'Moves' && <Moves id={id} />}
       </BottomContainer>
     </Container>
   );

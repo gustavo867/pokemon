@@ -15,7 +15,7 @@ export const Container = styled.View`
 export const ProgressContainer = styled.View`
   background-color: #d8d8d8;
   border-radius: 20px;
-  margin-top: 20px;
+  margin-top: 12px;
   height: 10px;
   width: ${halfWidth}px;
 `;
@@ -39,7 +39,7 @@ export const StatsText = styled.Text`
   font-weight: 400;
   font-size: 15px;
   color: rgba(0, 0, 0, 0.5);
-  margin-top: 10px;
+  margin-top: 5px;
   line-height: 25px;
   width: 90px;
 `;
@@ -49,7 +49,7 @@ export const RightText = styled.Text`
   font-size: 15px;
   color: #000;
   line-height: 25px;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-right: 10px;
   width: 30px;
   margin-left: 25px;
