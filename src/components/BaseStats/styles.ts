@@ -20,6 +20,8 @@ export const ProgressContainer = styled.View`
   width: ${halfWidth}px;
 `;
 
+export const ScrollContainer = styled.ScrollView``;
+
 export const StatsContainer = styled.View`
   flex-direction: row;
 `;

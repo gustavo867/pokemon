@@ -17,6 +17,10 @@ export const Container = styled.SafeAreaView`
   background-color: #fff;
 `;
 
+export const ScrollContainer = styled.ScrollView`
+  
+`;
+
 export const CenterContainer = styled.View`
   align-items: center;
   justify-content: center;

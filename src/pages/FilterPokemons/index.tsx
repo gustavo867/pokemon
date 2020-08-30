@@ -8,6 +8,7 @@ import {
   ButtonText,
   CenterContainer,
   BottomText,
+  ScrollContainer,
 } from './styles';
 import axios from 'axios';
 import pokemonApi from '../../services/pokemon';
@@ -122,14 +123,16 @@ const FilterPokemons: React.FC = () => {
           <ButtonText>Search</ButtonText>
         </SubmitButton>
       </Row>
-      <CenterContainer>
-        {isVisible && (
-          <Card name={name} id={id} type={types} color={color(colorName)} />
-        )}
-      </CenterContainer>
-      <BottomText>
-        If color doesn't appear click twice on search button
-      </BottomText>
+      <ScrollContainer>
+        <CenterContainer>
+          {isVisible && (
+            <Card name={name} id={id} type={types} color={color(colorName)} />
+          )}
+        </CenterContainer>
+        <BottomText>
+          If color doesn't appear click twice on search button
+        </BottomText>
+      </ScrollContainer>
     </Container>
   );
 };

@@ -9,6 +9,7 @@ import {
   RightText,
   Title,
   SmallText,
+  ScrollContainer,
 } from './styles';
 import Loading from '../Loading';
 
@@ -69,8 +70,10 @@ const BaseStats: React.FC<Stat> = ({ stats, name }: Stat) => {
         data={stats}
         renderItem={({ item }: any) => <Item {...item} />}
       />
-      <Title>Type Defenses</Title>
-      <SmallText>The effectiveness of each type on {name}</SmallText>
+      <ScrollContainer>
+        <Title>Type Defenses</Title>
+        <SmallText>The effectiveness of each type on {name}</SmallText>
+      </ScrollContainer>
     </Container>
   );
 };
