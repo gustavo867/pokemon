@@ -24,16 +24,17 @@ const Pokemons: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(35);
   const [offset, setOffset] = useState(0);
-  const [data, setData] = useState<Data | any>([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [pokemons, setPokemons] = useState<Data | any>([]);
   const { navigate } = useNavigation();
 
-  async function loadPokemons(limit = page) {
+  async function loadPokemons(shouldRefresh = false) {
     setLoading(true);
-    await api.get(`offset=${offset}&limit=${limit}`).then((response) => {
+    await api.get(`offset=${offset}&limit=${page}`).then((response) => {
       const data = response.data;
       const results = data.results;
 
-      setData(results);
+      setPokemons(shouldRefresh ? results : [...pokemons, ...results]);
       setOffset(offset + 30);
       setPage(page + 30);
       setLoading(false);
@@ -50,6 +51,14 @@ const Pokemons: React.FC = () => {
 
   function handleToPokemon(id: string) {
     navigate('Pokemon', { id });
+  }
+
+  async function refreshList() {
+    setRefreshing(true);
+
+    await loadPokemons(true);
+
+    setRefreshing(false);
   }
 
   const Item = (item: Data) => {
@@ -86,7 +95,7 @@ const Pokemons: React.FC = () => {
     );
   };
 
-  if (data.map === undefined) {
+  if (pokemons.map === undefined) {
     return <Loading />;
   }
 
@@ -99,12 +108,13 @@ const Pokemons: React.FC = () => {
         </RectButton>
       </Row>
       <FlatList
-        data={data}
-        keyExtractor={(item: any) => item.name}
+        data={pokemons}
+        keyExtractor={(item: any) => item.url}
         renderItem={({ item }: any) => <Item {...item} />}
         bounces={false}
         showsVerticalScrollIndicator={false}
-        onEndReached={() => loadPokemons()}
+        onEndReached={refreshList}
+        refreshing={refreshing}
         onEndReachedThreshold={0.1}
         numColumns={2}
         viewabilityConfig={{ viewAreaCoveragePercentThreshold: 10 }}
