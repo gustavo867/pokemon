@@ -13,7 +13,6 @@ import {
 import axios from 'axios';
 import pokemonApi from '../../services/pokemon';
 import Card from '../../components/Card';
-import { useNavigation } from '@react-navigation/native';
 
 interface TypeOject {
   name: string;
@@ -106,6 +105,7 @@ const FilterPokemons: React.FC = () => {
           onChangeText={(text) => setValue(text)}
           autoCorrect={false}
           placeholderTextColor="#2d0c57"
+          autoCapitalize="none"
         />
         <SubmitButton
           style={{

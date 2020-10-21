@@ -23,7 +23,6 @@ import pokeball from '../../images/pokeball.png';
 import Header from '../../components/Header';
 import AboutComponent from '../../components/AboutComponent';
 import BaseStats from '../../components/BaseStats';
-import Evolution from '../../components/Evolution';
 import Moves from '../../components/Moves';
 
 interface RouteProps {
@@ -56,7 +55,6 @@ interface Egg {
 const { height, width } = Dimensions.get('window');
 
 const EspecifiedPokemon: React.FC = () => {
-  const [data, setData] = useState([]);
   const [name, setName] = useState('');
   const [types, setTypes] = useState([]);
   const [typeColor, setTypeColor] = useState('');
@@ -64,6 +62,7 @@ const EspecifiedPokemon: React.FC = () => {
   const [pokeHeight, setPokeHeight] = useState(0);
   const [abilities, setAbilities] = useState([]);
   const [eggGroup, setEggGroup] = useState<Egg | any>([]);
+  const [sprite, setSprite] = useState('');
   const [type, setType] = useState('');
   const [stat, setStat] = useState([]);
 
@@ -97,12 +96,13 @@ const EspecifiedPokemon: React.FC = () => {
           const heightPoke = data.height;
           const ability = data.abilities;
           const stats = data.stats;
+          const img = data.sprites.other['official-artwork'].front_default;
 
+          setSprite(img);
           setStat(stats);
           setAbilities(ability);
           setWeight(weightPoke);
           setPokeHeight(heightPoke);
-          setData(data);
           setName(name);
           setTypes(types);
         });
@@ -162,24 +162,39 @@ const EspecifiedPokemon: React.FC = () => {
         source={pokeball}
       />
       <PokemonName>{name}</PokemonName>
-      <FlatList
-        horizontal={true}
+      <View
         style={{
-          height: 54,
-          width: width,
-          position: 'absolute',
-          zIndex: 2,
-          marginTop: height * 0.15,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
-        keyExtractor={(item: Type) => item.type.name}
-        data={types}
-        renderItem={({ item }: Item) => <Item {...item} />}
-      />
+      >
+        <FlatList
+          horizontal={true}
+          style={{
+            height: 54,
+            flexGrow: 0,
+          }}
+          contentContainerStyle={{
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          keyExtractor={(item: Type) => item.type.name}
+          data={types}
+          renderItem={({ item }: Item) => <Item {...item} />}
+        />
+        <Text style={{ color: '#FFF', marginRight: 15, fontSize: 17 }}>
+          # {id}
+        </Text>
+      </View>
       <StyledImage
-        style={{ marginTop: height * 0.21 }}
+        style={{ top: height * 0.21 }}
         resizeMode="contain"
         source={{
-          uri: `https://pokeres.bastionbot.org/images/pokemon/${id}.png`,
+          uri:
+            sprite !== undefined
+              ? sprite
+              : `https://pokeres.bastionbot.org/images/pokemon/${id}.png`,
         }}
       />
 
@@ -269,8 +284,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.25)',
     marginLeft: 20,
     marginTop: 10,
-    alignSelf: 'center',
-    textTransform: 'capitalize',
     justifyContent: 'center',
   },
   typesText: {

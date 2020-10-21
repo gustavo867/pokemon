@@ -9,7 +9,6 @@ export const AboutContainer = styled.View`
 `;
 
 export const AbilityContainer = styled.View`
-  margin-left: 25px;
   flex-direction: row;
 `;
 

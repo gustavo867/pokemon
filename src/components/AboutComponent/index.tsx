@@ -7,7 +7,6 @@ import {
   AbilityText,
   Title,
   Container,
-  AbilityContainer,
 } from './styles';
 import Loading from '../Loading';
 
@@ -75,6 +74,7 @@ const AboutComponent: React.FC<Props> = ({
           <AboutText>Name </AboutText>
           <AboutText>Height </AboutText>
           <AboutText>Weight </AboutText>
+          <AboutText>Abilities</AboutText>
         </View>
         <View>
           <RightText>{name}</RightText>
@@ -86,9 +86,7 @@ const AboutComponent: React.FC<Props> = ({
             {convertHectogramsToLbs(weight)} Lbs{' '}
             {convertHectogramsToKgs(weight)} Kgs
           </RightText>
-        </View>
-        <AbilityContainer style={{ marginLeft: 160, position: 'absolute' }}>
-          <AboutText>Abilities</AboutText>
+
           <View
             style={{
               flexDirection: 'column',
@@ -102,7 +100,7 @@ const AboutComponent: React.FC<Props> = ({
               );
             })}
           </View>
-        </AbilityContainer>
+        </View>
       </AboutContainer>
       <Title>Breeding</Title>
       <AboutContainer>

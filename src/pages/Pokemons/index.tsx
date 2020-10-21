@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Text,
   StyleSheet,
@@ -12,8 +12,10 @@ import { useNavigation } from '@react-navigation/native';
 import { Card, Heading, StyledImage, Row } from './styles';
 import { RectButton } from 'react-native-gesture-handler';
 import Loading from '../../components/Loading';
+import Input from '../../components/Input';
 
 const { height } = Dimensions.get('window');
+
 interface Data {
   name: string;
   url: string;
@@ -22,27 +24,25 @@ interface Data {
 
 const Pokemons: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(35);
-  const [offset, setOffset] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
   const [pokemons, setPokemons] = useState<Data | any>([]);
+  const [pokeName, setPokeName] = useState('');
   const { navigate } = useNavigation();
 
-  async function loadPokemons(shouldRefresh = false) {
+  const loadPokemons = useMemo(async () => {
     setLoading(true);
-    await api.get(`offset=${offset}&limit=${page}`).then((response) => {
+    setRefreshing(true);
+    await api.get(`offset=0&limit=1050`).then((response) => {
       const data = response.data;
       const results = data.results;
 
-      setPokemons(shouldRefresh ? results : [...pokemons, ...results]);
-      setOffset(offset + 30);
-      setPage(page + 30);
+      setPokemons(results);
       setLoading(false);
     });
-  }
+  }, []);
 
   useEffect(() => {
-    loadPokemons();
+    loadPokemons;
   }, []);
 
   function handleToFilter() {
@@ -51,14 +51,6 @@ const Pokemons: React.FC = () => {
 
   function handleToPokemon(id: string) {
     navigate('Pokemon', { id });
-  }
-
-  async function refreshList() {
-    setRefreshing(true);
-
-    await loadPokemons(true);
-
-    setRefreshing(false);
   }
 
   const Item = (item: Data) => {
@@ -88,7 +80,7 @@ const Pokemons: React.FC = () => {
         <StyledImage
           resizeMode="contain"
           source={{
-            uri: `https://pokeres.bastionbot.org/images/pokemon/${pokeId}.png`,
+            uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokeId}.png`,
           }}
         />
       </Card>
@@ -108,21 +100,27 @@ const Pokemons: React.FC = () => {
         </RectButton>
       </Row>
       <FlatList
-        data={pokemons}
+        data={pokemons.filter((pokemon: Data) => {
+          return pokemon.name.includes(pokeName);
+        })}
         keyExtractor={(item: any) => item.url}
         renderItem={({ item }: any) => <Item {...item} />}
         bounces={false}
         showsVerticalScrollIndicator={false}
-        onEndReached={refreshList}
         refreshing={refreshing}
-        onEndReachedThreshold={0.1}
         numColumns={2}
-        viewabilityConfig={{ viewAreaCoveragePercentThreshold: 10 }}
-        ListFooterComponent={
+        ListHeaderComponent={
           (loading && (
             <ActivityIndicator color="#000" size="small" animating={loading} />
-          )) ||
-          null
+          )) || (
+            <Input
+              label="Search"
+              value={pokeName}
+              onChangeText={(text) => setPokeName(text)}
+              autoCorrect={false}
+              autoCapitalize="none"
+            />
+          )
         }
       />
     </SafeAreaView>
