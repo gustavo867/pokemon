@@ -17,6 +17,7 @@ import {
 import { useRoute } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 import { getCategories } from '../../utils/categories';
+
 import axios from 'axios';
 import pokeball from '../../images/pokeball.png';
 

@@ -11,6 +11,7 @@ import api from '../../services/api';
 import { useNavigation } from '@react-navigation/native';
 import { Card, Heading, StyledImage, Row } from './styles';
 import { RectButton } from 'react-native-gesture-handler';
+
 import Loading from '../../components/Loading';
 import Input from '../../components/Input';
 

@@ -11,6 +11,7 @@ import {
   ScrollContainer,
 } from './styles';
 import axios from 'axios';
+
 import pokemonApi from '../../services/pokemon';
 import Card from '../../components/Card';
 
