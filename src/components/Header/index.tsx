@@ -20,7 +20,7 @@ const Header: React.FC = () => {
   return (
     <Wrapper>
       <Button onPress={() => handleNavigate()}>
-        <Ionicons name="ios-arrow-round-back" size={27} color="#FFF" />
+        <Ionicons name="arrow-back" size={27} color="#FFF" />
       </Button>
       <Button onPress={handleHeart}>
         <AntDesign

@@ -1,6 +1,6 @@
-import { Platform, Dimensions } from 'react-native';
+import { Platform, Dimensions, Animated } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
-import Constants from 'expo-constants';
 
 interface Props {
   color: string;
@@ -10,12 +10,9 @@ const { height, width } = Dimensions.get('window');
 
 const lineWidth = width / 1.1;
 
-const statusBarHeight =
-  Platform.OS === 'android' ? Constants.statusBarHeight : 0;
-
-export const Container = styled.SafeAreaView`
+export const Container = styled(SafeAreaView)`
+  padding-top: 10px;
   flex: 1;
-  padding-top: ${statusBarHeight}px;
   background-color: ${(props: Props) => props.color};
 `;
 
@@ -35,7 +32,7 @@ export const PokemonName = styled.Text`
   margin-top: 15px;
 `;
 
-export const BackgroundImage = styled.Image`
+export const BackgroundImage = styled(Animated.Image)`
   position: absolute;
   z-index: -10;
   height: 200px;

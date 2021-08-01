@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   StyleSheet,
@@ -14,6 +14,7 @@ import { RectButton } from 'react-native-gesture-handler';
 
 import Loading from '../../components/Loading';
 import Input from '../../components/Input';
+import { useCallback } from 'react';
 
 const { height } = Dimensions.get('window');
 
@@ -30,7 +31,7 @@ const Pokemons: React.FC = () => {
   const [pokeName, setPokeName] = useState('');
   const { navigate } = useNavigation();
 
-  const loadPokemons = useMemo(async () => {
+  const loadPokemons = useCallback(async () => {
     setLoading(true);
     setRefreshing(true);
     await api.get(`offset=0&limit=1050`).then((response) => {
@@ -43,7 +44,7 @@ const Pokemons: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    loadPokemons;
+    loadPokemons();
   }, []);
 
   function handleToFilter() {
@@ -82,6 +83,7 @@ const Pokemons: React.FC = () => {
           resizeMode="contain"
           source={{
             uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokeId}.png`,
+            cache: 'force-cache',
           }}
         />
       </Card>

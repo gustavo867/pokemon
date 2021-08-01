@@ -5,6 +5,8 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  Animated,
+  Easing,
 } from 'react-native';
 import {
   Container,
@@ -25,6 +27,8 @@ import Header from '../../components/Header';
 import AboutComponent from '../../components/AboutComponent';
 import BaseStats from '../../components/BaseStats';
 import Moves from '../../components/Moves';
+import { useRef } from 'react';
+import { useCallback } from 'react';
 
 interface RouteProps {
   id: number;
@@ -66,6 +70,8 @@ const EspecifiedPokemon: React.FC = () => {
   const [sprite, setSprite] = useState('');
   const [type, setType] = useState('');
   const [stat, setStat] = useState([]);
+  const rotate = useRef(new Animated.Value(0)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
 
   const [selectedCategory, setSelectedCategory] = useState('About');
 
@@ -84,6 +90,21 @@ const EspecifiedPokemon: React.FC = () => {
   const PURPLE_COLOR = '#8257E5';
   const WHITE_COLOR = '#FFFFFF';
   const BLACK_COLOR = 'rgba(0, 0, 0, 0.7)';
+
+  const animateRotate = useCallback(() => {
+    Animated.loop(
+      Animated.timing(rotate, {
+        toValue: 360,
+        duration: 3000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      })
+    ).start();
+  }, []);
+
+  useEffect(() => {
+    animateRotate();
+  }, []);
 
   useEffect(() => {
     async function loadPokemon() {
@@ -158,7 +179,20 @@ const EspecifiedPokemon: React.FC = () => {
     <Container color={color(typeColor)}>
       <Header />
       <BackgroundImage
-        style={{ marginLeft: width * 0.6, marginTop: height * 0.25 }}
+        style={{
+          marginLeft: width * 0.6,
+          marginTop: height * 0.25,
+          opacity: 0.8,
+          transform: [
+            {
+              rotateZ: rotate.interpolate({
+                inputRange: [0, 360],
+                outputRange: ['0deg', '360deg'],
+                extrapolate: 'clamp',
+              }),
+            },
+          ],
+        }}
         resizeMode="contain"
         source={pokeball}
       />
@@ -199,7 +233,7 @@ const EspecifiedPokemon: React.FC = () => {
         }}
       />
 
-      <BottomContainer style={{ marginTop: height * 0.34 }}>
+      <BottomContainer style={{ marginTop: height * 0.3 }}>
         <View
           style={{
             marginTop: 45,
